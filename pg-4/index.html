@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>Google Cashback Center — Récupération 3/3</title>
+  <meta name="description" content="Récupérez votre cashback.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: {
+            bg: '#f5f6fa',
+            fg: '#0a0a0a',
+            muted: '#737373',
+            border: '#e5e5e5',
+            card: '#ffffff',
+            accent: '#22c55e',
+            accentDark: '#16a34a',
+            soft: '#dbeafe',
+            ggBlue: '#4285F4',
+            ggRed: '#EA4335',
+            ggYellow: '#FBBC05',
+            ggGreen: '#34A853'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .balance-pulse { animation: balancePulse 800ms ease-out; }
+    @keyframes balancePulse {
+      0%   { transform: scale(1); box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+      40%  { transform: scale(1.08); box-shadow: 0 0 0 12px rgba(34,197,94,0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+    }
+    .check-pop { animation: checkPop 500ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+    @keyframes checkPop {
+      0%   { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .fade-in { animation: fadeIn 300ms ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+
+  <!-- TODO: trocar pelo seu Facebook Pixel ID -->
+  <!-- <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'TODO_FB_PIXEL_ID');
+    fbq('track', 'PageView');
+  </script> -->
+
+  <script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-subids async defer></script>
+
+  <!-- TikTok Pixel via Utmify — PF27 -->
+  <script>
+    window.tikTokPixelId = "69fd5ee41de21a1e19a50914";
+    var a = document.createElement("script");
+    a.setAttribute("async", "");
+    a.setAttribute("defer", "");
+    a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js");
+    document.head.appendChild(a);
+  </script>
+  <!-- End TikTok Pixel PF27 -->
+</head>
+<body class="bg-bg text-fg font-sans antialiased min-h-screen">
+
+  <main class="mx-auto max-w-[480px] px-4 pt-6 pb-10">
+
+    <!-- TOP CARD -->
+    <section class="rounded-2xl bg-soft px-5 py-6">
+      <div class="text-center">
+        <div class="text-[28px] font-bold leading-none">
+          <span class="text-ggBlue">G</span><span class="text-ggRed">o</span><span class="text-ggYellow">o</span><span class="text-ggBlue">g</span><span class="text-ggGreen">l</span><span class="text-ggRed">e</span>
+        </div>
+        <p class="mt-1 text-[15px] text-fg/80">Cashback Center</p>
+      </div>
+
+      <p class="mt-4 text-center text-[13px] leading-relaxed text-fg/70">
+        Récupérez vos gains en attente de manière rapide et sécurisée.
+      </p>
+
+      <div class="mt-5 flex items-center justify-between gap-3">
+        <span class="text-[14px] text-fg/70">Votre solde actuel :</span>
+        <span id="balance" class="rounded-xl bg-accent text-white text-[18px] font-bold px-5 py-2.5 inline-block">185,00 €</span>
+      </div>
+    </section>
+
+    <section class="mt-3 rounded-2xl bg-card px-5 py-4">
+      <div class="flex items-center justify-between text-[13px] text-fg/70 mb-2">
+        <span>Votre progression</span>
+        <span id="progressPercent">67%</span>
+      </div>
+      <div class="h-1.5 w-full rounded-full bg-border overflow-hidden">
+        <div id="progressBar" class="h-full bg-accent transition-[width] duration-1000 ease-out" style="width: 67%"></div>
+      </div>
+    </section>
+
+    <!-- CODE CARD -->
+    <section id="codeCard" class="mt-3 rounded-2xl bg-card px-5 py-7 text-center transition-all duration-300">
+      <span class="inline-flex items-center gap-1 rounded-full bg-soft text-ggBlue text-[12px] font-bold px-3 py-1">
+        💲 Récupération 3 / 3
+      </span>
+
+      <h1 class="mt-4 text-[20px] font-extrabold">Récupérez votre cashback</h1>
+
+      <div class="mt-5 rounded-xl border border-accent/40 bg-accent/10 px-4 py-5">
+        <p class="text-[11px] tracking-[0.15em] text-fg/60 uppercase">Montant à recevoir</p>
+        <p class="mt-2 text-[32px] font-extrabold text-accentDark">45,00 €</p>
+      </div>
+
+      <div class="mt-5 rounded-xl border-2 border-dashed border-accent/60 bg-accent/5 px-4 py-5">
+        <p class="text-[11px] tracking-[0.2em] text-fg/60">CODE</p>
+        <p class="mt-2 text-[28px] font-extrabold tracking-[0.4em]">TVHD</p>
+      </div>
+
+      <p class="mt-5 text-[13px] text-fg/70">
+        Saisissez le code ci-dessus pour débloquer.
+      </p>
+
+      <!-- Code inputs -->
+      <div id="codeInputs" class="mt-4 flex justify-center gap-2.5">
+        <input maxlength="1" inputmode="text" autocomplete="off" class="code-input w-12 h-14 rounded-lg border border-border text-center text-[20px] font-bold uppercase focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/30">
+        <input maxlength="1" inputmode="text" autocomplete="off" class="code-input w-12 h-14 rounded-lg border border-border text-center text-[20px] font-bold uppercase focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/30">
+        <input maxlength="1" inputmode="text" autocomplete="off" class="code-input w-12 h-14 rounded-lg border border-border text-center text-[20px] font-bold uppercase focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/30">
+        <input maxlength="1" inputmode="text" autocomplete="off" class="code-input w-12 h-14 rounded-lg border border-border text-center text-[20px] font-bold uppercase focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/30">
+      </div>
+      <p id="codeError" class="hidden mt-3 text-[12px] text-red-600">Code incorrect. Réessayez.</p>
+
+      <button id="cta" type="button" disabled class="mt-5 w-full rounded-xl bg-accent text-white px-6 py-4 text-[15px] font-bold tracking-wider transition hover:bg-accentDark active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
+        RÉCUPÉRER LE CASHBACK
+      </button>
+    </section>
+
+    <!-- SUCCESS CARD (hidden) -->
+    <section id="successCard" class="hidden mt-3 rounded-2xl bg-card px-6 py-10 text-center">
+      <div class="check-pop mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-accent">
+        <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <h2 class="mt-5 text-[20px] font-extrabold">Cashback récupéré !</h2>
+      <p class="mt-2 text-[14px] text-fg/70">+<span id="amountAdded">45,00</span> € ajoutés à votre solde</p>
+    </section>
+
+    <footer class="mt-8 text-center text-[11px] text-muted">
+      <p>Copyright © 2026 | Google CashBacks</p>
+      <p class="mt-2 space-x-3">
+        <a href="#" class="underline">Politique de confidentialité</a>
+        <a href="#" class="underline">Conditions d'utilisation</a>
+      </p>
+    </footer>
+  </main>
+
+  <script>
+    (function(){
+      var EXPECTED = 'TVHD';
+      var NEXT = '../pg-5/index.html';
+      var BALANCE_FROM = 185.00, BALANCE_TO = 230.00;
+      var PROGRESS_FROM = 67, PROGRESS_TO = 100;
+
+      var inputs = Array.from(document.querySelectorAll('.code-input'));
+      var cta = document.getElementById('cta');
+      var err = document.getElementById('codeError');
+      var codeCard = document.getElementById('codeCard');
+      var successCard = document.getElementById('successCard');
+      var balanceEl = document.getElementById('balance');
+      var progressPercent = document.getElementById('progressPercent');
+      var progressBar = document.getElementById('progressBar');
+
+      function currentCode(){ return inputs.map(function(i){return i.value;}).join('').toUpperCase(); }
+      function check(){
+        var c = currentCode();
+        if (c.length === EXPECTED.length){
+          if (c === EXPECTED){ cta.disabled = false; err.classList.add('hidden'); }
+          else { cta.disabled = true; err.classList.remove('hidden'); }
+        } else {
+          cta.disabled = true; err.classList.add('hidden');
+        }
+      }
+
+      inputs.forEach(function(input, idx){
+        input.addEventListener('input', function(){
+          input.value = input.value.toUpperCase().slice(0, 1);
+          if (input.value && idx < inputs.length - 1) inputs[idx + 1].focus();
+          check();
+        });
+        input.addEventListener('keydown', function(e){
+          if (e.key === 'Backspace' && !input.value && idx > 0) inputs[idx - 1].focus();
+        });
+        input.addEventListener('paste', function(e){
+          e.preventDefault();
+          var text = (e.clipboardData || window.clipboardData).getData('text').toUpperCase();
+          for (var i = 0; i < inputs.length && i < text.length; i++) inputs[i].value = text[i];
+          check();
+        });
+      });
+
+      function formatEUR(v){
+        return v.toFixed(2).replace('.', ',') + ' €';
+      }
+      function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+      function animateValue(from, to, duration, onFrame, onDone){
+        var start = performance.now();
+        function step(now){
+          var t = Math.min(1, (now - start) / duration);
+          var v = from + (to - from) * easeOutCubic(t);
+          onFrame(v);
+          if (t < 1) requestAnimationFrame(step);
+          else if (onDone) onDone();
+        }
+        requestAnimationFrame(step);
+      }
+
+      cta.addEventListener('click', function(){
+        if (cta.disabled) return;
+        cta.disabled = true;
+        inputs.forEach(function(i){ i.disabled = true; });
+
+        // Fade out card de codigo
+        codeCard.style.opacity = '0';
+        codeCard.style.transform = 'scale(0.97)';
+
+        setTimeout(function(){
+          codeCard.classList.add('hidden');
+          successCard.classList.remove('hidden');
+          successCard.classList.add('fade-in');
+
+          // Animar saldo + progresso em paralelo
+          balanceEl.classList.add('balance-pulse');
+          animateValue(BALANCE_FROM, BALANCE_TO, 1100, function(v){
+            balanceEl.textContent = formatEUR(v);
+          });
+          animateValue(PROGRESS_FROM, PROGRESS_TO, 1100, function(v){
+            progressPercent.textContent = Math.round(v) + '%';
+            progressBar.style.width = v + '%';
+          });
+
+          // Redireciona apos animacao
+          setTimeout(function(){
+            var dest = NEXT;
+            var q = window.location.search;
+            if (q) dest += (dest.indexOf('?') >= 0 ? '&' : '?') + q.slice(1);
+            window.location.href = dest;
+          }, 1700);
+        }, 300);
+      });
+    })();
+  </script>
+</body>
+</html>
